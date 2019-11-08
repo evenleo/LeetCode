@@ -11,7 +11,6 @@
 *
 */
 
-
 //Definition for singly-linked list.
 struct ListNode {
     int val;
@@ -21,15 +20,68 @@ struct ListNode {
 
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) {
-        ListNode *reverse = NULL;
-        ListNode *next;
-        while (head != NULL) {
-            next = head->next;
-            head->next = reverse;
-            reverse = head;
-            head = next;
+    
+    template<class T>
+    void swap(T& a, T& b) {
+        T tmp = a;
+        a = b;
+        b = tmp;
+    }
+    
+    // 合并链表
+    ListNode* merge(ListNode* l1, ListNode* l2) {
+        ListNode* head = new ListNode(0);
+        ListNode* list = head;
+        while (l1 != NULL && l2 != NULL) {
+            if (l1->val < l2->val) {
+                list->next = l1;
+                l1 = l1->next;
+            } else {
+                list->next = l2;
+                l2 = l2->next;
+            }
+            list = list->next;
         }
-        return reverse;
+        
+        if (l1 != NULL) list->next = l1;
+        if (l2 != NULL) list->next = l2;
+        
+        return head->next;
+    }
+
+    // 切割头结点，即将头结点与原链表分类并返回
+    ListNode* spiceHead(ListNode*& head) {
+        ListNode* pos = head;
+        head = head->next;
+        pos->next = NULL;
+        return pos;
+    }
+   
+
+    ListNode* sortList(ListNode* head) {
+        if (head == NULL || head->next == NULL) 
+            return head;
+        
+        ListNode* carry;
+        ListNode* counter[64];
+        int refill = 0;
+
+        while (head) {
+            carry = spiceHead(head);
+            int i = 0;
+            while (i < refill && counter[i]) {
+                counter[i] = merge(carry, counter[i]);
+                carry = NULL;
+                swap(carry, counter[i++]);
+            }
+            swap(carry, counter[i]);
+            if (i == refill) refill++;
+        }
+
+        for (int i = 1; i < refill; ++i) {
+            counter[i] = merge(counter[i], counter[i-1]);
+        }
+        
+        return counter[refill-1];
     }
 };
