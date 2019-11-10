@@ -22,7 +22,7 @@ public:
         if (x < 0)
             return false;
         
-        long reverse_val = 0;   //用long型是为了防止int溢出
+        long long reverse_val = 0;   //用long long型是为了防止int溢出
         int val = x;
         while (val) {
             reverse_val = reverse_val * 10 + val % 10;
