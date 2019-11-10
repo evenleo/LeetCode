@@ -14,18 +14,30 @@
 */
 
 #include <vector>
+#include <string>
 
 using namespace std;
 
 class Solution {
 public:
-    void reverseString(vector<char>& s) {
-        int i = 0;
-        int j = s.size() - 1;
-        while (i < j) {
-            char tmp = s[i];
-            s[i++] = s[j];
-            s[j--] = tmp;
+    // begin:反转字符开始索引，end:反转字符串结束索引
+    void reverse(string& s, int begin, int end) {
+        while (begin <= end) {
+            char tmp = s[begin];
+            s[begin++] = s[end];
+            s[end--] = tmp;
         }
+    }
+    string reverseWords(string s) {
+        int begin = 0;
+        int end = 0;
+        while (end <= s.size()) {
+            if (end == s.size() || s[end] == ' ') {
+                reverse(s, begin, end-1);
+                begin = end + 1;
+            }
+            end++;
+        }
+        return s;
     }
 };
