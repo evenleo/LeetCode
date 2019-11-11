@@ -23,8 +23,8 @@ class Solution {
 public:
     // 迭代方法
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        ListNode* head = new ListNode(0);
-        ListNode* list = head;
+        shared_ptr<ListNode> ptr = make_shared<ListNode>(0);  // 用shared_ptr可自动析构头结点
+        ListNode* list = ptr.get();
         while (l1 != NULL && l2 != NULL) {
             if (l1->val < l2->val) {
                 list->next = l1;
@@ -39,7 +39,7 @@ public:
         if (l1 != NULL) list->next = l1;
         if (l2 != NULL) list->next = l2;
         
-        return head->next;
+        return ptr.get()->next;
     }
 
     /* 递归方法
@@ -75,8 +75,8 @@ public:
 class Solution2 {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        ListNode* head = new ListNode(0);
-        ListNode* list = head;
+        shared_ptr<ListNode> ptr = make_shared<ListNode>(0);  // 用shared_ptr可自动析构头结点
+        ListNode* list = ptr.get();
         while (l1 != NULL && l2 != NULL) {
             if (l1->val < l2->val) {
                 list->next = l1;
@@ -91,7 +91,7 @@ public:
         if (l1 != NULL) list->next = l1;
         if (l2 != NULL) list->next = l2;
         
-        return head->next;
+        return ptr.get()->next;
     }
     
     // 合并 k 个排序链表，巧用上面两个链表合并的方法
