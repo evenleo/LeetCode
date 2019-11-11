@@ -11,8 +11,6 @@
 * 进阶：你能用 O(1)（即，常量）内存解决此问题吗？
 */
 
-
-//Definition for singly-linked list.
 struct ListNode {
     int val;
     ListNode *next;

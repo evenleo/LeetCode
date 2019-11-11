@@ -11,8 +11,6 @@ using namespace std;
 *
 */
 
-
-//Definition for singly-linked list.
 struct ListNode {
     int val;
     ListNode *next;
@@ -42,7 +40,7 @@ public:
         return ptr.get()->next;
     }
 
-    /* 递归方法
+    // 递归方法
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
         if (l1 == NULL) return l2;
         if (l2 == NULL) return l1;
@@ -55,7 +53,6 @@ public:
             return l2;
         }
     }
-    */
 };
 
 /*
@@ -70,7 +67,6 @@ public:
 *        输出: 1->1->2->3->4->4->5->6
 *
 */
-
 
 class Solution2 {
 public:

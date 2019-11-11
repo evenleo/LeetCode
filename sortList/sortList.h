@@ -30,8 +30,8 @@ public:
     
     // 合并链表
     ListNode* merge(ListNode* l1, ListNode* l2) {
-        ListNode* head = new ListNode(0);
-        ListNode* list = head;
+       shared_ptr<ListNode> ptr = make_shared<ListNode>(0);  // 用shared_ptr可自动析构头结点
+        ListNode* list = ptr.get();
         while (l1 != NULL && l2 != NULL) {
             if (l1->val < l2->val) {
                 list->next = l1;
@@ -46,7 +46,7 @@ public:
         if (l1 != NULL) list->next = l1;
         if (l2 != NULL) list->next = l2;
         
-        return head->next;
+        return ptr.get()->next;
     }
 
     // 切割头结点，即将头结点与原链表分类并返回
