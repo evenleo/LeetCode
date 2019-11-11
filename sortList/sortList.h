@@ -11,7 +11,6 @@
 *
 */
 
-//Definition for singly-linked list.
 struct ListNode {
     int val;
     ListNode *next;
@@ -20,7 +19,7 @@ struct ListNode {
 
 class Solution {
 public:
-    
+    // SGI STL方法 
     template<class T>
     void swap(T& a, T& b) {
         T tmp = a;
@@ -57,7 +56,6 @@ public:
         return pos;
     }
    
-
     ListNode* sortList(ListNode* head) {
         if (head == NULL || head->next == NULL) 
             return head;
@@ -83,5 +81,43 @@ public:
         }
         
         return counter[refill-1];
+    }
+    
+    // 归并的方法
+    ListNode* sortList(ListNode* head) {
+        if (head == NULL || head->next == NULL)
+            return head;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        ListNode* brk = head;
+        while (fast != NULL && fast->next != NULL) {
+            fast = fast->next->next;
+            brk = slow;
+            slow = slow->next;
+        }
+        brk->next = NULL;
+        head = sortList(head);
+        slow = sortList(slow);
+        return merge(head, slow);
+    }
+    
+    ListNode* merge(ListNode* l1, ListNode* l2) {
+        shared_ptr<ListNode> ptr = make_shared<ListNode>(0);  // 用shared_ptr可自动析构头结点
+        ListNode* list = ptr.get();
+        while (l1 != NULL && l2 != NULL) {
+            if (l1->val < l2->val) {
+                list->next = l1;
+                l1 = l1->next;
+            } else {
+                list->next = l2;
+                l2 = l2->next;
+            }
+            list = list->next;
+        }
+        
+        if (l1 != NULL) list->next = l1;
+        if (l2 != NULL) list->next = l2;
+        
+        return ptr.get()->next;
     }
 };
